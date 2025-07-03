@@ -1,0 +1,71 @@
+
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+     <meta charset="UTF-8" />
+     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+     <title>Vue 3 購物清單</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+     <style>
+         body {
+             font-family: Arial, sans-serif;
+             padding: 20px;
+             }
+         form {
+             margin-bottom: 20px;
+             }
+         input {
+             margin-right: 10px;
+             }
+         ul {
+             list-style: none;
+             padding: 0;
+         }
+         li {
+             margin: 5px 0;
+         }
+     </style>
+</head>
+<body>
+     <div id="app">
+         <h1>🛒 購物清單</h1>
+         <form @submit.prevent="addItem">
+             <input type="text" v-model="itemName" placeholder="商品名稱" required />
+             <input type="number" v-model.number="itemQuantity" placeholder="數量" min="1" required />
+             <button type="submit">新增</button>
+         </form>
+
+         <ul>
+             <li v-for="(item, index) in shoppingList" :key="index">
+             {{ item.name }}，{{ item.quantity }}
+             </li>
+         </ul>
+    </div>
+
+ <script>
+    const { createApp } = Vue;
+
+    createApp({
+        data() {
+            return {
+                itemName: '',
+                itemQuantity: 1,
+                shoppingList: []
+            };
+        },
+        methods: {
+            addItem() {
+                if (this.itemName && this.itemQuantity > 0) {
+                    this.shoppingList.push({
+                        name: this.itemName,
+                        quantity: this.itemQuantity
+                    });
+                    this.itemName = '';
+                    this.itemQuantity = 1;
+                }
+            }
+        }
+    }).mount('#app');
+</script>
+</body>
+</html>
